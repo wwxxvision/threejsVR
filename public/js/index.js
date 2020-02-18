@@ -433,6 +433,7 @@ import TWEEN from './tween.esm.js';
         clear();
 
         setTextureForSphere(hiddenSphere);
+        repositionSpheres(hiddenSphere);
 
         UIStates.animate(hiddenSphere, activeSphere, currentRoom);
 
