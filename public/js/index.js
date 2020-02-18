@@ -420,6 +420,7 @@ import TWEEN from './tween.esm.js';
 
             initControllers(structuring(store, 'controls', currentRoom));
 
+            //Example не работает
             camera.lookAt(new THREE.Vector3(200, 0, 200))
           })
           .start();
@@ -432,11 +433,10 @@ import TWEEN from './tween.esm.js';
         clear();
 
         setTextureForSphere(hiddenSphere);
-        repositionSpheres(hiddenSphere);
 
-        UIStates.animate(hiddenSphere, activeSphere, currentRoom)
+        UIStates.animate(hiddenSphere, activeSphere, currentRoom);
 
-        rotationSphere(hiddenSphere, radians)
+        rotationSphere(hiddenSphere, radians);
       }
 
 
