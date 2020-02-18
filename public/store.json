@@ -1,0 +1,157 @@
+{
+  "store": {
+    "hidden": {
+      "rooms": [
+        {
+          "room": "a",
+          "right_cross_forward": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "b"
+          }
+        },
+        {
+          "room": "b",
+          "left_cross_forward": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "c"
+          },
+          "left_cross_back": {
+            "x": 0,
+            "y": 0,
+            "z": 1000,
+            "next": "a"
+          }
+        },
+        {
+          "room": "c",
+          "right_cross_forward": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "d"
+          },
+          "left_cross_forward": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "b"
+          }
+        },
+        {
+          "room": "d",
+          "left": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "a1"
+          },
+          "forward": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "c"
+          }
+        },
+        {
+          "room": "a1",
+          "left": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "a1"
+          },
+          "forward": {
+            "x": 0,
+            "y": 0,
+            "z": -1000,
+            "next": "c"
+          }
+        }
+        
+      ]
+    },
+    "controllsRules": {
+      "rooms": {
+        "a": {
+          "forward": false,
+          "back": false,
+          "left": false,
+          "right": false,
+          "right_cross_forward": true,
+          "left_cross_forward": false,
+          "right_cross_back": false,
+          "left_cross_back": false
+        },
+        "b": {
+          "forward": false,
+          "back": false,
+          "left": false,
+          "right": false,
+          "right_cross_forward": false,
+          "left_cross_forward": true,
+          "right_cross_back": false,
+          "left_cross_back": true
+        },
+        "c": {
+          "forward": false,
+          "back": false,
+          "left": false,
+          "right": false,
+          "right_cross_forward": true,
+          "left_cross_forward": true,
+          "right_cross_back": false,
+          "left_cross_back": false
+        },
+        "d": {
+          "forward": true,
+          "back": false,
+          "left": true,
+          "right": false,
+          "right_cross_forward": false,
+          "left_cross_forward": false,
+          "right_cross_back": false,
+          "left_cross_back": false
+        },
+        "a1": {
+          "forward": true,
+          "back": true,
+          "left": false,
+          "right": false,
+          "right_cross_forward": false,
+          "left_cross_forward": false,
+          "right_cross_back": false,
+          "left_cross_back": false
+        }
+      }
+    },
+    "textures": {
+      "rooms": [
+        {
+          "name": "a",
+          "src": "./assets/texture/a.jpg"
+        },
+        {
+          "name": "b",
+          "src": "./assets/texture/b.jpg"
+        },
+        {
+          "name": "c",
+          "src": "./assets/texture/c_.jpg"
+        },
+        {
+          "name": "d",
+          "src": "./assets/texture/d.jpg"
+        },
+        {
+          "name": "a1",
+          "src": "./assets/texture/a1.jpg"
+        }
+
+      ]
+    }
+  }
+}
