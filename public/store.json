@@ -55,21 +55,6 @@
             "z": -1000,
             "next": "c"
           }
-        },
-        {
-          "room": "a1",
-          "left": {
-            "x": 0,
-            "y": 0,
-            "z": -1000,
-            "next": "a1"
-          },
-          "forward": {
-            "x": 0,
-            "y": 0,
-            "z": -1000,
-            "next": "c"
-          }
         }
         
       ]
@@ -109,16 +94,6 @@
         "d": {
           "forward": true,
           "back": false,
-          "left": true,
-          "right": false,
-          "right_cross_forward": false,
-          "left_cross_forward": false,
-          "right_cross_back": false,
-          "left_cross_back": false
-        },
-        "a1": {
-          "forward": true,
-          "back": true,
           "left": false,
           "right": false,
           "right_cross_forward": false,
@@ -145,10 +120,6 @@
         {
           "name": "d",
           "src": "./assets/texture/d.jpg"
-        },
-        {
-          "name": "a1",
-          "src": "./assets/texture/a1.jpg"
         }
 
       ]

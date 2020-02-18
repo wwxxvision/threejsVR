@@ -45,12 +45,22 @@ import TWEEN from './tween.esm.js';
 
   }
   let trigger = false;
+
+  function moving(x, y, z) {
+
+    camera.target.x = x;
+    camera.target.y = y;
+    camera.target.z = z;
+
+    camera.lookAt(camera.target);
+  }
+
   function onPointerStart(event) {
 
     isUserInteracting = true;
 
-    var clientX = event.clientX || event.touches[0].clientX;
-    var clientY = event.clientY || event.touches[0].clientY;
+    var clientX = event.clientX;
+    var clientY = event.clientY;
 
     onMouseDownMouseX = clientX;
     onMouseDownMouseY = clientY;
@@ -65,13 +75,12 @@ import TWEEN from './tween.esm.js';
 
     // calculate objects intersecting the picking ray
     var intersects = raycaster.intersectObjects(scene.children);
-    intersects.forEach((item) => {
+    intersects.find((item) => {
       if (item.object.name === 'controller') {
-
         trigger = item;
-
       }
     });
+
 
   }
 
@@ -85,6 +94,13 @@ import TWEEN from './tween.esm.js';
       lat = (clientY - onMouseDownMouseY) * 0.1 + onMouseDownLat;
 
     }
+
+    lat = Math.max(- 85, Math.min(85, lat));
+    phi = THREE.MathUtils.degToRad(90 - lat);
+    theta = THREE.MathUtils.degToRad(lon);
+
+
+    moving((Math.sin(phi) * Math.cos(theta)), Math.cos(phi), (Math.sin(phi) * Math.sin(theta)));
 
   }
 
@@ -115,23 +131,11 @@ import TWEEN from './tween.esm.js';
   function update() {
 
 
-    lat = Math.max(- 85, Math.min(85, lat));
-    phi = THREE.MathUtils.degToRad(90 - lat);
-    theta = THREE.MathUtils.degToRad(lon);
-
-    camera.target.x = Math.sin(phi) * Math.cos(theta);
-    camera.target.y = Math.cos(phi);
-    camera.target.z = Math.sin(phi) * Math.sin(theta);
-
-    camera.lookAt(camera.target);
-
-
     // camera.position.copy(camera.target).negate();
 
     renderer.render(scene, camera);
 
   }
-
 
   function init(store, textures) {
 
@@ -220,7 +224,7 @@ import TWEEN from './tween.esm.js';
       const rotationSphere = (sphere, radians) => (sphere.rotation.y = radians);
 
       const repositionSpheres = (hiddenSpere) => {
-        const {  currentRoom } = UIStates;
+        const { currentRoom } = UIStates;
 
         const { next: next } = structuring(
           store, 'hiddenPos', currentRoom)
@@ -320,10 +324,10 @@ import TWEEN from './tween.esm.js';
 
           cube.name = 'controller';
 
-            cube.userData = {
-              data: route
-            }
-  
+          cube.userData = {
+            data: route
+          }
+
           cube.position.x = route.end.x;
           cube.position.y = -5;
           cube.position.z = route.end.z;
@@ -375,7 +379,10 @@ import TWEEN from './tween.esm.js';
           case 'left_cross_back':
             hiddenRoom.position.set(-50, 0, 0);
             break;
-            
+          case 'left':
+            hiddenRoom.position.set(0, 0, 50);
+            break;
+
           default:
 
         }
@@ -390,10 +397,26 @@ import TWEEN from './tween.esm.js';
           z0: hiddenRoom.position.z,
           x: activeRoom.position.x,
           y: activeRoom.position.y,
-          z: activeRoom.position.z
+          z: activeRoom.position.z,
         }
 
-      
+        let movingConfig = {
+          xTarg: camera.target.x,
+          yTarg: camera.target.y,
+          zTarg: camera.target.z
+        }
+        new TWEEN.Tween(movingConfig)
+          .to(
+            {
+              xTarg: animateConfig.x0,
+              yTarg: animateConfig.y0,
+              zTarg: animateConfig.z0
+            }, 500)
+          .onUpdate(object => {
+            moving(object.xTarg, object.yTarg, object.zTarg)
+          })
+          .start();
+
         // activeRoom.material.opacity = 0;
         new TWEEN.Tween(animateConfig)
           .to(
@@ -404,24 +427,25 @@ import TWEEN from './tween.esm.js';
               hiddenOpacity: 1,
               activeOpacity: 0
             }, 1000)
-          .onUpdate((object) => {
+          .onUpdate(object => {
             hiddenRoom.position.set(object.x0, object.y0, object.z0);
 
+     
             activeRoom.material.opacity = object.activeOpacity;
             hiddenRoom.material.opacity = object.hiddenOpacity;
 
           })
           .onComplete(() => {
-            hiddenRoom.position.set(1000, 0, 0);
 
             [activeRoom, hiddenRoom] = [hiddenRoom, activeRoom];
             activeSphere = activeRoom;
             hiddenSphere = hiddenRoom;
+            hiddenRoom.position.set(1000, 0, 0);
 
             initControllers(structuring(store, 'controls', currentRoom));
 
-            //Example не работает
-            camera.lookAt(new THREE.Vector3(200, 0, 200))
+            // moving(hiddenSphere.position.x, hiddenSphere.position.y, activeSphere.position.z)
+
           })
           .start();
 
@@ -429,15 +453,15 @@ import TWEEN from './tween.esm.js';
 
       }
       UIStates.update = (currentRoom, activeSphere, radians) => {
-        
+
         clear();
 
         setTextureForSphere(hiddenSphere);
         repositionSpheres(hiddenSphere);
 
-        UIStates.animate(hiddenSphere, activeSphere, currentRoom);
+        UIStates.animate(hiddenSphere, activeSphere, currentRoom)
 
-        rotationSphere(hiddenSphere, radians);
+        rotationSphere(hiddenSphere, radians)
       }
 
 
