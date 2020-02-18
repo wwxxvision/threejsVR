@@ -85,8 +85,8 @@ import TWEEN from './tween.esm.js';
   }
 
   function onPointerMove(event) {
-    var clientX = event.clientX || event.touches[0].clientX,
-      clientY = event.clientY || event.touches[0].clientY;
+    var clientX = event.clientX ,
+      clientY = event.clientY 
 
     if (isUserInteracting === true) {
 
@@ -413,7 +413,7 @@ import TWEEN from './tween.esm.js';
               zTarg: animateConfig.z0
             }, 500)
           .onUpdate(object => {
-            moving(object.xTarg, object.yTarg, object.zTarg)
+            moving(object.xTarg, object.yTarg, object.zTarg);
           })
           .start();
 
